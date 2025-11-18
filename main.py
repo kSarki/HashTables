@@ -1,56 +1,65 @@
-import csv
 from schedule import Schedule
-from schedule_item import ScheduleItem
-import run
+
+
+def display_menu():
+    print("\n" + "="*60)
+    print(" "*20 + "SCHEDULE SEARCH PROGRAM")
+    print("="*60)
+    print("\nMenu Options:")
+    print("1. View All Schedule Items")
+    print("2. Search Schedule Items")
+    print("3. Load Schedule from CSV")
+    print("4. Exit")
+    print("="*60)
 
 
 def main():
-    print("\n" + "="*60)
-    print(" "*15 + "SCHEDULE SEARCH PROGRAM - START")
-    print("="*60)
-    
+    schedule = Schedule()
     csv_filename = "schedule_data.csv"
     
-    print(f"\nStep 1: Loading file '{csv_filename}'...")
+    print("\nWelcome to the Schedule Search Program!")
+    print(f"Loading schedule from '{csv_filename}'...")
     
-    try:
-        with open(csv_filename, 'r', encoding='utf-8') as file:
-            print("Step 2: Using csv.DictReader to read the file...")
-            reader = csv.DictReader(file)
-            
-            print("Step 3: Creating Schedule() instance...")
-            schedule = Schedule()
-            
-            print("Step 4: Creating ScheduleItem objects...")
-            for row in reader:
-                item = ScheduleItem(
-                    date=row['date'],
-                    time=row['time'],
-                    title=row['title'],
-                    description=row['description'],
-                    location=row.get('location', '')
-                )
-                schedule.add_item(item)
-            
-            print(f"Step 5: schedule.load_from_csv completed!")
-            print(f"Successfully loaded {schedule.get_count()} schedule items!")
-            
-            print("\n" + "="*60)
-            print(" "*20 + "ALL SCHEDULE ITEMS")
-            print("="*60)
+    if schedule.load_from_csv(csv_filename):
+        print(f"Successfully loaded {schedule.get_count()} schedule items!")
+    else:
+        print("No schedule loaded. You can load one from the menu.")
+    
+    while True:
+        display_menu()
+        choice = input("\nEnter your choice (1-4): ").strip()
+        
+        if choice == "1":
+            print("\n--- ALL SCHEDULE ITEMS ---")
             schedule.display_all()
+        
+        elif choice == "2":
+            search_term = input("\nEnter search term: ").strip()
+            if search_term:
+                print(f"\n--- SEARCH RESULTS FOR: '{search_term}' ---")
+                results = schedule.search(search_term)
+                schedule.display_items(results)
+            else:
+                print("Search term cannot be empty.")
+        
+        elif choice == "3":
+            filename = input("\nEnter CSV filename (default: schedule_data.csv): ").strip()
+            if not filename:
+                filename = "schedule_data.csv"
             
-            print("\nStep 6: Calling run.py recommend() function...")
-            run.recommend(schedule)
-            
-    except FileNotFoundError:
-        print(f"Error: File '{csv_filename}' not found.")
-    except Exception as e:
-        print(f"Error: {e}")
-    
-    print("\n" + "="*60)
-    print(" "*20 + "PROGRAM END")
-    print("="*60)
+            schedule = Schedule()
+            if schedule.load_from_csv(filename):
+                print(f"Successfully loaded {schedule.get_count()} schedule items!")
+            else:
+                print("Failed to load schedule.")
+        
+        elif choice == "4":
+            print("\nThank you for using the Schedule Search Program!")
+            print("Goodbye!")
+            break
+        
+        else:
+            print("\nInvalid choice. Please enter a number between 1 and 4.")
 
 
 if __name__ == "__main__":
