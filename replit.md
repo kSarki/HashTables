@@ -1,35 +1,29 @@
 # Schedule Search Program
 
 ## Overview
-A Python command-line application for managing and searching schedule items loaded from CSV files with intelligent recommendations.
+A simplified Python command-line application for managing and searching schedule items loaded from CSV files.
 
 ## Project Structure
-- `schedule_item.py` - ScheduleItem class definition
-- `schedule.py` - Schedule class for managing collections of schedule items
-- `main.py` - Main program entry point following specific flowchart
-- `run.py` - Recommendation engine that analyzes schedule data
+- `schedule_item.py` - ScheduleItem dataclass (date, time, title, description, location)
+- `schedule.py` - Schedule class for managing items with search functionality
+- `main.py` - Main program with interactive menu
 - `schedule_data.csv` - Sample schedule data
 
 ## Program Flow
-1. main.py starts
-2. Load CSV file for schedule times
-3. Use csv.DictReader to parse data
-4. Create Schedule() instance
-5. Create ScheduleItem objects from CSV rows
-6. Call run.py recommend() function for analysis
-7. Program ends
+1. main.py loads CSV data into Schedule
+2. User selects menu option (display all, search, quit)
+3. Results displayed in formatted output
 
 ## Recent Changes
-- 2025-11-18: Restructured program to follow specific flowchart with recommendation feature
-- 2025-11-17: Initial project setup with Python 3.11
+- 2025-11-26: Simplified code - cleaner structure, fewer lines, same functionality
+- 2025-11-18: Initial project setup with Python 3.11
 
 ## Features
 - Load schedule data from CSV files using csv.DictReader
-- Automatic schedule item creation and management
-- Intelligent recommendation system analyzing meetings, trainings, and interviews
 - Display all schedule items with formatted output
-- Top 3 upcoming items highlight
+- Search across title, description, and location fields
+- Simple 3-option menu interface
 
 ## User Preferences
-- Follow specific flowchart structure for program execution
-- Include recommendation analysis at program end
+- Clean, simplified code structure
+- Minimal lines while maintaining readability
