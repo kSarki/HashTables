@@ -1,31 +1,21 @@
+from dataclasses import dataclass
+
+@dataclass
 class ScheduleItem:
-    def __init__(self, date, time, title, description, location=""):
-        self.date = date
-        self.time = time
-        self.title = title
-        self.description = description
-        self.location = location
-    
-    def __str__(self):
-        return f"{self.date} {self.time} - {self.title} at {self.location}"
-    
-    def __repr__(self):
-        return f"ScheduleItem(date='{self.date}', time='{self.time}', title='{self.title}')"
-    
-    def matches_search(self, search_term):
-        search_term = search_term.lower()
-        return (search_term in self.title.lower() or 
-                search_term in self.description.lower() or 
-                search_term in self.location.lower() or
-                search_term in self.date or
-                search_term in self.time)
-    
-    def display(self):
-        print(f"\n{'='*60}")
-        print(f"Date: {self.date}")
-        print(f"Time: {self.time}")
-        print(f"Title: {self.title}")
-        print(f"Description: {self.description}")
-        if self.location:
-            print(f"Location: {self.location}")
-        print(f"{'='*60}")
+    subject: str
+    catalog: str
+    section: str
+    component: str
+    session: str
+    units: int
+    tot_enrl: int
+    cap_enrl: int
+    instructor: str
+
+    def get_key(self) -> str:
+        return f"{self.subject}_{self.catalog}_{self.section}"
+
+    def print(self) -> None:
+        print(f"{self.subject:4} {self.catalog:6} {self.section:6} "
+              f"{self.component:8} {self.session:4} {self.units:3} "
+              f"{self.tot_enrl:6} {self.cap_enrl:6} {self.instructor}")
