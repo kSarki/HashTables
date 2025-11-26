@@ -3,28 +3,25 @@ from schedule_item import ScheduleItem
 
 class Schedule:
     def __init__(self):
-        self.entries: dict[str, ScheduleItem] = {}
+        self.items: list[ScheduleItem] = []
 
-    def add_entry(self, item: ScheduleItem) -> None:
-        self.entries[item.get_key()] = item
+    def add_item(self, item: ScheduleItem) -> None:
+        self.items.append(item)
 
     def load_from_csv(self, filename: str) -> None:
-        with open(filename, encoding='utf-8-sig', newline='') as f:
+        with open(filename, encoding='utf-8') as f:
             for row in csv.DictReader(f):
-                self.add_entry(ScheduleItem(
-                    subject=row['Subject'],
-                    catalog=row['Catalog'],
-                    section=row['Section'],
-                    component=row['Component'],
-                    session=row['Session'],
-                    units=int(row['Units']),
-                    tot_enrl=int(row['TotEnrl']),
-                    cap_enrl=int(row['CapEnrl']),
-                    instructor=row['Instructor']
+                self.add_item(ScheduleItem(
+                    date=row['date'],
+                    time=row['time'],
+                    title=row['title'],
+                    description=row['description'],
+                    location=row.get('location', '')
                 ))
 
     def print_header(self) -> None:
-        print("Subj Catalog Section Component Sess Units TotEnrl CapEnrl Instructor")
+        print(f"{'Date':<12}{'Time':<8}{'Title':<22}{'Location'}")
+        print("-" * 60)
 
     def print_results(self, results: list[ScheduleItem]) -> None:
         self.print_header()
@@ -32,14 +29,12 @@ class Schedule:
             item.print()
 
     def print_all(self) -> None:
-        self.print_results(list(self.entries.values()))
+        self.print_results(self.items)
 
-    def find(self, subject="", catalog="", instructor="") -> list[ScheduleItem]:
-        results = list(self.entries.values())
-        if subject:
-            results = [i for i in results if i.subject == subject]
-        if catalog:
-            results = [i for i in results if i.catalog == catalog]
-        if instructor:
-            results = [i for i in results if i.instructor.split(',')[0] == instructor]
-        return results
+    def search(self, term: str) -> list[ScheduleItem]:
+        term = term.lower()
+        return [i for i in self.items if term in i.title.lower() or 
+                term in i.description.lower() or term in i.location.lower()]
+
+    def count(self) -> int:
+        return len(self.items)
