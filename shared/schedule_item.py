@@ -12,6 +12,9 @@ class ScheduleItem:
     cap_enrl: int
     instructor: str
 
+    def get_key(self) -> tuple:
+        return (self.subject, self.catalog, self.section)
+
     def print(self) -> None:
         print(f"{self.subject:4} {self.catalog:6} {self.section:6} {self.component:8} "
               f"{self.session:4} {self.units:3} {self.tot_enrl:6} {self.cap_enrl:6} {self.instructor}")

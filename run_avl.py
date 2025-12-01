@@ -1,26 +1,12 @@
 import sys
+sys.path.insert(0, 'avl_app')
+from avl_app.schedule import Schedule
+
 
 def main():
-    print("Course Schedule Search Program")
-    print("1. Run BST version")
-    print("2. Run AVL version")
-    choice = input("Choice: ").strip()
-
-    if choice == "1":
-        sys.path.insert(0, 'bst_app')
-        from bst_app.schedule import Schedule
-        version = "BST"
-    elif choice == "2":
-        sys.path.insert(0, 'avl_app')
-        from avl_app.schedule import Schedule
-        version = "AVL"
-    else:
-        print("Invalid choice.")
-        return
-
     schedule = Schedule()
     schedule.load_from_csv("courses.csv")
-    print(f"Course schedule loaded ({version} version).")
+    print("Course schedule loaded (AVL version).")
 
     while True:
         print("\n1. Display all  2. By subject  3. By subject+catalog  4. By instructor  5. Quit")
