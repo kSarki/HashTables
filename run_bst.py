@@ -1,12 +1,15 @@
+"""Entry point for running the BST version of the course schedule program."""
+
 import sys
 sys.path.insert(0, 'bst_app')
 from bst_app.schedule import Schedule
 
 
 def main():
+    """Main function to run the BST-based course schedule search."""
     schedule = Schedule()
     schedule.load_from_csv("courses.csv")
-    print("Course schedule loaded (BST version).")
+    print(f"Course schedule loaded (BST version). Tree height: {schedule.get_tree_height()}")
 
     while True:
         print("\n1. Display all  2. By subject  3. By subject+catalog  4. By instructor  5. Quit")

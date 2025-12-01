@@ -1,6 +1,13 @@
+"""
+Course Schedule Search Program
+Main entry point - allows user to choose between BST and AVL implementations.
+"""
+
 import sys
 
+
 def main():
+    """Main function to select and run the course schedule program."""
     print("Course Schedule Search Program")
     print("1. Run BST version")
     print("2. Run AVL version")
@@ -20,7 +27,7 @@ def main():
 
     schedule = Schedule()
     schedule.load_from_csv("courses.csv")
-    print(f"Course schedule loaded ({version} version).")
+    print(f"Course schedule loaded ({version} version). Tree height: {schedule.get_tree_height()}")
 
     while True:
         print("\n1. Display all  2. By subject  3. By subject+catalog  4. By instructor  5. Quit")
